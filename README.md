@@ -204,8 +204,30 @@ npm run dev
 > 💡 **Tip:** Register with `role: "admin"` first to unlock full access. The frontend includes a role selector on the registration page.
 
 ---
-
 ## 🌐 API Reference
+ 
+### Health Check
+ 
+Verify the backend is live — no authentication required.
+ 
+```
+GET /api/health
+```
+ 
+**Response:**
+ 
+```json
+{
+  "success": true,
+  "message": "Finance API is running",
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "environment": "production"
+}
+```
+ 
+> 🔗 Try it live: [finance-mangement-system-backend.vercel.app/api/health](https://finance-mangement-system-backend.vercel.app/api/health)
+ 
+---
 
 ### Authentication
 
