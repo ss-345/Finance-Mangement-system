@@ -20,7 +20,7 @@ const app = express();
 // CORS — allow frontend origin
 app.use(
   cors({
-    origin: "http://localhost:5173", // Vite default port
+    origin: "https://finance-mangement-system-frontend.vercel.app", // Vite default port
     credentials: true,
   }),
 );
