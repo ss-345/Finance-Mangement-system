@@ -18,7 +18,12 @@ const app = express();
 // ─── Global Middleware ──────────────────────────────────────────────────────
 
 // CORS — allow frontend origin
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Vite default port
+    credentials: true,
+  }),
+);
 
 // Body parsers
 app.use(express.json());
@@ -52,14 +57,14 @@ const generalLimiter = rateLimit({
   },
 });
 
-app.use('/api/auth', authLimiter);
-app.use('/api', generalLimiter);
+app.use("/api/auth", authLimiter);
+app.use("/api", generalLimiter);
 
 // ─── API Routes ─────────────────────────────────────────────────────────────
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/transactions', transactionRoutes);
-app.use('/api/dashboard', dashboardRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 // ─── Health Check ────────────────────────────────────────────────────────────
 app.get("/api/health", (req, res) => {
