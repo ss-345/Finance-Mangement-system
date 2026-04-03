@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://finance-mangement-system-backend.vercel.app/api",
+  baseURL: import.meta.env.VITE_API_URL,
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });

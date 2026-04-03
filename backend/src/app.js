@@ -20,9 +20,12 @@ const app = express();
 // CORS — allow frontend origin
 app.use(
   cors({
-    origin: "https://finance-mangement-system-frontend.vercel.app", // Vite default port
+    origin: [
+      "http://localhost:5173",
+      "https://finance-mangement-system-frontend.vercel.app"
+    ],
     credentials: true,
-  }),
+  })
 );
 
 // Body parsers
