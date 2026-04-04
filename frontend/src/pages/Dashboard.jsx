@@ -14,18 +14,21 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [summaryRes, recentRes, categoryTotalsRes] = await Promise.all([
+        const [summaryRes, recentRes] = await Promise.all([
           api.get("/dashboard/summary"),
           api.get("/dashboard/recent-activity"),
-          api.get("/dashboard/category-totals"),
+          
         ]);
         setSummary(summaryRes.data.data);
         setRecent(recentRes.data.data.transactions);
-        setCategoryTotals(categoryTotalsRes.data.data.categoryTotals);
+        
+
 
         if (hasRole("analyst", "admin")) {
           const trendsRes = await api.get("/dashboard/monthly-trends");
+          const catResult = await api.get("/dashboard/category-totals");
           setTrends(trendsRes.data.data.trends);
+          setCategoryTotals(catResult.data.data.categoryTotals);
         }
       } catch (err) {
         console.error(err);
