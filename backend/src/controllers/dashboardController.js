@@ -71,17 +71,44 @@ const getCategoryTotals = async (req, res, next) => {
             },
           },
           // Calculate net total for the category (income - expense)
-          categoryTotal: { $sum: {
-            $cond: [{ $eq: ["$_id.type", "income"] }, "$total", { $multiply: ["$total", -1] } ]
-          } },
+          categoryTotal: {
+            $sum: {
+              $cond: [
+                { $eq: ["$_id.type", "income"] },
+                "$total",
+                { $multiply: ["$total", -1] },
+              ],
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: "$_id",
+          breakdown: 1,
+          categoryTotal: { $round: ["$categoryTotal", 2] },
         },
       },
       { $sort: { categoryTotal: -1 } },
     ]);
 
+    const finalresult = result.map((item) => ({
+      category: item.category,
+      net: item.categoryTotal,
+      income:
+        parseFloat(
+          item.breakdown.find((b) => b.type === "income")?.total.toFixed(2),
+        ) || 0,
+      expense:
+        parseFloat(
+          item.breakdown.find((b) => b.type === "expense")?.total.toFixed(2),
+        ) || 0,
+      count: item.breakdown.reduce((sum, b) => sum + b.count, 0),
+    }));
     res.status(200).json({
       success: true,
-      data: { categoryTotals: result },
+      data: { categoryTotals: finalresult },
     });
   } catch (error) {
     next(error);
